@@ -40,10 +40,9 @@ public class ExcelReader {
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         updateComponentTreeUI(frame);
 
-        frame.println("--  Keresd ki a feldolgozandó excel fájlt (zárd be az EXCEL programot) --\n 
-                      -- A formátum kötött:  \n
-                      -- [ID]	[IHonap]	[Telefonszam]	[E-mail]	AP	BD	BI oszlopoknak kell szerepelnie az A1-es cellától kezdődően \n
-                       ");
+        frame.println("--  Keresd ki a feldolgozandó excel fájlt (zárd be az EXCEL programot) --\n " +
+                      "-- A formátum kötött:  \n " +
+                      "-- [ID]	[IHonap]	[Telefonszam]	[E-mail]	AP	BD	BI oszlopoknak kell szerepelnie az A1-es cellától kezdődően \n");
 
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int returnValue = jfc.showOpenDialog(null);
