@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
@@ -213,17 +214,17 @@ public class ExcelReader {
             }
         }
 
-        frame.println("\n-> March player Phone : <Phone number> -> <occurrence>\n");
+        frame.println("\n-> 1th month player Phone : <Phone number> -> <occurrence>\n");
         marchPlayers.forEach((key, value) -> {
             frame.println("Phone : " + key + " -> " + value);
         });
 
-        frame.println("\n-> April player Phone : <Phone number> -> <occurrence>\n");
+        frame.println("\n-> 2nd month player Phone : <Phone number> -> <occurrence>\n");
         aprilPlayers.forEach((key, value) -> {
             frame.println("Phone : " + key + " -> " + value);
         });
 
-        frame.println("\n-> May player Phone : <Phone number> ->  <occurrence>\n");
+        frame.println("\n-> 3rd month player Phone : <Phone number> ->  <occurrence>\n");
         mayPlayers.forEach((key, value) -> {
             frame.println("Phone : " + key + " -> " + value);
         });
@@ -261,12 +262,14 @@ public class ExcelReader {
             }
         }
 
-        if(monthMap.get(entry.getMonth()).equals("march"))
-            march.add(entry);
-        if(monthMap.get(entry.getMonth()).equals("april"))
-            april.add(entry);
-        if(monthMap.get(entry.getMonth()).equals("may"))
-            may.add(entry);
+        if(entry.getMonth() != null) {
+            if (monthMap.get(entry.getMonth()).equals("march"))
+                march.add(entry);
+            if (monthMap.get(entry.getMonth()).equals("april"))
+                april.add(entry);
+            if (monthMap.get(entry.getMonth()).equals("may"))
+                may.add(entry);
+        }
     }
 
     private static void fillEntries(String sampleXlsxFilePath) throws IOException {
@@ -307,7 +310,13 @@ public class ExcelReader {
                             entry.setAP(cell.getStringCellValue());
                             break;
                         case 5:
-                            entry.setBN(cell.getStringCellValue());
+                            if(cell.getCellType() == NUMERIC) {
+                                double myValue = cell.getNumericCellValue();
+                                DecimalFormat df = new DecimalFormat("0");
+                                entry.setBN(df.format(myValue));
+                            }
+                            if(cell.getCellType() == STRING)
+                                entry.setBN(cell.getStringCellValue());
                             break;
                         case 6:
                             entry.setBI(cell.getStringCellValue());
@@ -316,9 +325,11 @@ public class ExcelReader {
                     colIndex++;
                 }
 
-                if(entry.getPhone() != null) {
+
+                if(entry.getPhone() != null && entry.getMonth() != null && entry.getMonth().length() > 4 ) {
                     frame.println(entry.toString());
                     entries.add(entry);
+                } else {
                 }
             }
 
